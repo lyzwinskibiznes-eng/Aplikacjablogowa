@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akademia Iskrobezpieczeństwa</title>
+  <style>
+    :root {
+      color-scheme: dark light;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-primary);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .theme-dark {
+      --bg-gradient: linear-gradient(135deg, #0f172a, #0a1324);
+      --text-primary: #ffffff;
+      --text-secondary: #cbd5e1;
+      --panel-bg: rgba(15, 23, 42, 0.6);
+      --button-primary: #2563eb;
+      --button-primary-hover: #1d4ed8;
+      --button-secondary: rgba(226, 232, 240, 0.1);
+      --button-secondary-hover: rgba(226, 232, 240, 0.2);
+      --accent: #2563eb;
+    }
+
+    .theme-light {
+      --bg-gradient: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --panel-bg: rgba(255, 255, 255, 0.8);
+      --button-primary: #2563eb;
+      --button-primary-hover: #1d4ed8;
+      --button-secondary: rgba(30, 41, 59, 0.08);
+      --button-secondary-hover: rgba(30, 41, 59, 0.18);
+      --accent: #2563eb;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      width: min(960px, 92vw);
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 1.5rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 3rem 0 2rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.2);
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin: 1rem 0 1.5rem;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      margin: 0 auto 2rem;
+      max-width: 42ch;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (min-width: 640px) {
+      .hero-actions {
+        flex-direction: row;
+      }
+    }
+
+    .button {
+      padding: 0.85rem 1.75rem;
+      border-radius: 999px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .button-primary {
+      background: var(--button-primary);
+      color: #fff;
+    }
+
+    .button-primary:hover {
+      background: var(--button-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .button-secondary {
+      background: var(--button-secondary);
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+    }
+
+    .button-secondary:hover {
+      background: var(--button-secondary-hover);
+      transform: translateY(-1px);
+    }
+
+    footer {
+      padding: 2rem 0 3rem;
+      color: var(--text-secondary);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .cookie-banner {
+      position: fixed;
+      inset: auto 0 0 0;
+      background: rgba(15, 23, 42, 0.9);
+      color: #fff;
+      padding: 1.25rem 0;
+      backdrop-filter: blur(8px);
+      display: none;
+    }
+
+    .cookie-banner.visible {
+      display: block;
+    }
+
+    .cookie-content {
+      width: min(960px, 92vw);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cookie-content p {
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 720px) {
+      .cookie-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .topics {
+      margin-top: 2.5rem;
+      text-align: left;
+    }
+
+    .topics h2 {
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .topics-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .topics article {
+      padding: 1.25rem;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .theme-light .topics article {
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .topics article:hover {
+      transform: translateY(-3px);
+    }
+
+    .topics h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.25rem;
+    }
+
+    .topics p {
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body class="theme-dark">
+  <div class="page">
+    <header>
+      <div class="container">
+        <div class="brand">
+          <span class="brand-logo">IS</span>
+          <span>Iskrobezpiecznie.pl</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <section class="hero">
+          <p class="eyebrow">Twoja baza wiedzy</p>
+          <h1>Akademia Iskrobezpieczeństwa</h1>
+          <p>
+            Twoje centrum wiedzy o bezpieczeństwie wybuchowym. Poznaj dyrektywy ATEX, zasady projektowania systemów Ex i najnowsze technologie w strefach zagrożonych wybuchem.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#tematy">Zobacz wszystkie artykuły</a>
+            <button class="button button-secondary" id="theme-toggle" type="button">Rozjaśnij tło</button>
+          </div>
+
+          <section class="topics" id="tematy">
+            <h2>Bieżące tematy</h2>
+            <div class="topics-list">
+              <!-- W następnym kroku łatwo zaktualizujesz listę tematów, dodając lub edytując elementy <article>. -->
+              <article>
+                <h3>Podstawy dyrektywy ATEX</h3>
+                <p>Wprowadzenie do wymagań bezpieczeństwa przeciwwybuchowego dla urządzeń i instalacji.</p>
+              </article>
+              <article>
+                <h3>Projektowanie instalacji w strefach Ex</h3>
+                <p>Najważniejsze zasady doboru aparatury oraz dokumentacji technicznej w strefach zagrożonych.</p>
+              </article>
+              <article>
+                <h3>Konserwacja i audyty bezpieczeństwa</h3>
+                <p>Jak planować przeglądy i audyty, aby utrzymać ciągłe bezpieczeństwo instalacji.</p>
+              </article>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      © 2025 Iskrobezpiecznie.pl — Wszelkie prawa zastrzeżone
+    </footer>
+  </div>
+
+  <div class="cookie-banner" id="cookie-banner">
+    <div class="cookie-content">
+      <p>
+        Używamy plików cookies, aby zapewnić najlepszą jakość korzystania z serwisu oraz prowadzić statystyki odwiedzin. Możesz zmienić ustawienia w swojej przeglądarce.
+      </p>
+      <button class="button button-primary" id="accept-cookies" type="button">Akceptuję</button>
+    </div>
+  </div>
+
+  <script>
+    const body = document.body;
+    const themeToggle = document.getElementById("theme-toggle");
+    const cookieBanner = document.getElementById("cookie-banner");
+    const acceptCookies = document.getElementById("accept-cookies");
+
+    function showCookieBannerOnce() {
+      if (!window.localStorage) {
+        cookieBanner.classList.add("visible");
+        return;
+      }
+
+      const accepted = localStorage.getItem("cookiesAccepted");
+      if (!accepted) {
+        cookieBanner.classList.add("visible");
+      }
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isLight = body.classList.toggle("theme-light");
+      body.classList.toggle("theme-dark", !isLight);
+      themeToggle.textContent = body.classList.contains("theme-dark") ? "Rozjaśnij tło" : "Przyciemnij tło";
+    });
+
+    acceptCookies.addEventListener("click", () => {
+      cookieBanner.classList.remove("visible");
+      try {
+        localStorage.setItem("cookiesAccepted", "yes");
+      } catch (error) {
+        // localStorage może być niedostępne (tryb prywatny)
+      }
+    });
+
+    if (!body.classList.contains("theme-dark") && !body.classList.contains("theme-light")) {
+      body.classList.add("theme-dark");
+    }
+
+    showCookieBannerOnce();
+  </script>
+</body>
+</html>
